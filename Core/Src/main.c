@@ -18,12 +18,13 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "i2c.h"
 #include "tim.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "drv8833.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -87,7 +88,17 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_TIM1_Init();
+  MX_I2C1_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
+  DRV8833_CH_HandleTypeDef drv_ch1;
+  int i = 0;
+  int increment = 1;
+  drv_ch1.tim_handle = &htim1;
+  drv_ch1.pwm_ch1 = TIM_CHANNEL_1;
+  drv_ch1.pwm_ch2 = TIM_CHANNEL_2;
+
+  DRV8833_init(&drv_ch1);
 
   /* USER CODE END 2 */
 
@@ -95,6 +106,16 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    i += increment;
+    if(i == 100)
+      increment = -1;
+    else
+    if(i == -100)
+      increment = 1;
+
+    DRV8833_set_percent(&drv_ch1, i);
+    HAL_Delay(100);
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

@@ -57,9 +57,10 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define RCC_TIM1_CLK 72000000
-#define TIM1_FREQ 20000
-#define TIM1_ARR (RCC_TIM1_CLK/TIM1_FREQ) -1
+#define RCC_TIM_CLK 72000000
+#define TIM_ARR ((RCC_TIM_CLK / (TIM_PRESCL + 1))/TIM_FREQ) -1
+#define TIM_FREQ 50
+#define TIM_PRESCL 39
 
 /* USER CODE BEGIN Private defines */
 
