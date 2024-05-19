@@ -17,6 +17,7 @@ typedef struct
 void DRV8833_init(DRV8833_CH_HandleTypeDef* hdrv);
 void DRV8833_set_raw(DRV8833_CH_HandleTypeDef* hdrv, int value);
 void DRV8833_set_percent(DRV8833_CH_HandleTypeDef* hdrv, int value);
+void DRV8833_set_schar(DRV8833_CH_HandleTypeDef* hdrv, int value);
 
 
 #ifdef __cplusplus
