@@ -25,6 +25,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "drv8833.h"
+#include "i2c_dev.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -91,14 +92,42 @@ int main(void)
   MX_I2C1_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-  DRV8833_CH_HandleTypeDef drv_ch1;
   int i = 0;
   int increment = 1;
-  drv_ch1.tim_handle = &htim1;
-  drv_ch1.pwm_ch1 = TIM_CHANNEL_1;
-  drv_ch1.pwm_ch2 = TIM_CHANNEL_2;
+  DRV8833_CH_HandleTypeDef drv_lf;
+  DRV8833_CH_HandleTypeDef drv_lr;
+  DRV8833_CH_HandleTypeDef drv_rf;
+  DRV8833_CH_HandleTypeDef drv_rr;
+  I2C_Dev_HandleTypeDef i2c_dev_inst;
 
-  DRV8833_init(&drv_ch1);
+  drv_lf.tim_handle = &htim1;
+  drv_lf.pwm_ch1 = TIM_CHANNEL_1;
+  drv_lf.pwm_ch2 = TIM_CHANNEL_2;
+
+  drv_lr.tim_handle = &htim1;
+  drv_lr.pwm_ch1 = TIM_CHANNEL_3;
+  drv_lr.pwm_ch2 = TIM_CHANNEL_4;
+
+  drv_rf.tim_handle = &htim2;
+  drv_rf.pwm_ch1 = TIM_CHANNEL_1;
+  drv_rf.pwm_ch2 = TIM_CHANNEL_2;
+
+  drv_rr.tim_handle = &htim2;
+  drv_rr.pwm_ch1 = TIM_CHANNEL_3;
+  drv_rr.pwm_ch2 = TIM_CHANNEL_4;
+
+  i2c_dev_inst.left_front_drv  = &drv_lf;
+  i2c_dev_inst.left_rear_drv   = &drv_lr;
+  i2c_dev_inst.right_front_drv = &drv_rf;
+  i2c_dev_inst.right_rear_drv  = &drv_rr;
+  i2c_dev_inst.hi2c = &hi2c1;
+
+  DRV8833_init(&drv_lf);
+  DRV8833_init(&drv_lr);
+  DRV8833_init(&drv_rf);
+  DRV8833_init(&drv_rr);
+
+  i2c_dev_init(&i2c_dev_inst);
 
   /* USER CODE END 2 */
 
@@ -106,15 +135,16 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    i += increment;
-    if(i == 100)
-      increment = -1;
-    else
-    if(i == -100)
-      increment = 1;
+    i2c_dev_process();
+                        // i += increment;
+                        // if(i == 100)
+                        //   increment = -1;
+                        // else
+                        // if(i == -100)
+                        //   increment = 1;
 
-    DRV8833_set_percent(&drv_ch1, i);
-    HAL_Delay(100);
+                        // DRV8833_set_percent(&drv_lf, i);
+                        // HAL_Delay(100);
 
     /* USER CODE END WHILE */
 

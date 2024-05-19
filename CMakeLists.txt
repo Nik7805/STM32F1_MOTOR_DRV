@@ -52,15 +52,13 @@ endif ()
  
 # Add Include directories
 include_directories(
-    #Includes from Makefile
-        ${CMAKE_SOURCE_DIR}/Core/Inc 
-        ${CMAKE_SOURCE_DIR}/Drivers/STM32F1xx_HAL_Driver/Inc 
-        ${CMAKE_SOURCE_DIR}/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy 
-        ${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Device/ST/STM32F1xx/Include 
-        ${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Include
-    #Includes from user code
-        ${CMAKE_SOURCE_DIR}/UserCode/Inc
-        )
+#Includes from Makefile
+${CMAKE_SOURCE_DIR}/Core/Inc 
+${CMAKE_SOURCE_DIR}/Drivers/STM32F1xx_HAL_Driver/Inc 
+${CMAKE_SOURCE_DIR}/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy 
+${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Device/ST/STM32F1xx/Include 
+${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Include
+)
  
 # Add C defines
 add_definitions(-DUSE_HAL_DRIVER -DSTM32F103xB)
@@ -91,9 +89,13 @@ Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c
 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c 
 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c 
 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_exti.c 
-Core/Src/system_stm32f1xx.c  
+Core/Src/system_stm32f1xx.c 
+Core/Src/i2c.c 
+Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c 
 startup_stm32f103xb.s
 #Sources from user code
+Core/Src/drv8833.c
+Core/Src/i2c_dev.c
 )
  
 # Add lincer file
